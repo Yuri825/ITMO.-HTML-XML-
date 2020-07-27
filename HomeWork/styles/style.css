@@ -1,0 +1,190 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+#wrapper {
+	width: 95vw;
+	margin: 0 auto;
+}
+
+a {
+	text-decoration: none;
+	color: #bd250f;
+}
+
+a:hover {
+	color: brown;
+	background-color: yellow;
+}
+
+a:active {
+	color: red;
+	background-color: gray;
+}
+
+.active {
+	background-color: #FF6C6C;
+	border-radius: 10px;
+	color: purple;
+}
+
+body {
+	background: #BCDDFE;
+}
+
+h1, h2 {
+	text-align: center;
+	margin-bottom: 10px;
+	color: #390088;
+}
+
+h1 {
+	color: #A51D91;
+	font-size: 3vw;
+	text-decoration: underline;
+
+}
+
+h2 {
+	font-family: serif;
+}
+
+/*HEADER
+=====================*/
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 200px;
+	background-image: url(../images/fon.jpg);
+	background-size: cover;
+
+}
+
+#title {
+	color: blue;
+	font-size: 4vw;
+}
+
+header ul {
+	display: flex;
+	/*border: 1px solid black;*/
+	list-style: none;
+}
+
+nav li {
+	font-size: 1.5vw;
+	margin-left: 2vw;
+	background-color: orange;
+	border-radius: 10px;
+	/*border: 1px solid black;*/
+}
+
+p {
+	text-align: justify;
+	text-indent: 30px;
+
+}
+
+/*main
+====================*/
+
+#newJorkImg {
+	width: 95vw;
+}
+
+#text {
+	display: flex;
+	flex-direction: row;	
+}
+
+.ul {
+	/*border: 1px solid black;*/
+	display: flex;
+	flex-direction: column;
+	list-style-position: outside;
+	margin-left: 30px;
+}
+
+#site li {
+	padding-top: 10px;
+}
+
+#whatIsSite, #kindsOfSites {
+	border: 2px solid green;
+	padding: 10px;
+	/*margin: 10px;*/
+	margin-top: 10px;
+
+	font-size: 1vw;
+}
+
+#whatIsSite {
+	width: 30vw;
+	margin-right: 10px;
+}
+
+#kindsOfSites {
+	width: 70vw;
+}
+
+#pika {
+	width: 10vw;
+}
+
+#paint {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.paint {
+	width: 7vw;
+	margin: 20px;
+}
+
+#paints {
+	display: flex;
+	justify-content: center;
+}
+
+#paints a {
+	margin: 20px;
+}
+
+.span {
+	/*border: 1px solid black;*/
+	font-size: 1.1vw;
+	margin-top: -20px;
+}
+
+.oneImage {
+	height: 90vh;
+	margin-top: 5vh;
+}
+
+#oneImage {
+	display: flex;
+	justify-content: center;
+}
+
+#now {
+	display: flex;
+	justify-content: center;
+	/*height: 90vw;
+	width: auto;*/
+}
+
+.now {
+	height: 90vh;
+}
+
+.img {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
