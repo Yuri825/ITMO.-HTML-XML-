@@ -1,0 +1,92 @@
+/* reset browser styles */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+html {
+font-size: 62.5%;
+font-family: Arial, Helvetica, sans-serif;
+background: rgb(216,191,216); 
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1.2;
+}
+ol { 
+	padding-left: 1.4em;
+	list-style: decimal;
+	margin: 50px 0 25px 50px;
+	width: 200px;
+	float: right;
+}
+ul {
+	padding-left: 1.4em;
+	list-style: square;
+}
+li {
+color: rgb(178,34,34);
+font-size: 1.5em;
+margin-bottom: 7px;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+} 
+h1 {
+color: rgb(178,34,34);
+font-family: Arial, Helvetica, sans-serif;
+font-size: 5em;
+text-align:center;
+text-shadow: 4px 3px 6px rgba(0,0,0,.5);
+background-image:url('switok.png'); /*Добавляет фоновое изображение*/
+background-repeat:no-repeat; /*Изображение не повторяется в рамках элемента*/
+background-position:top center; /*Позиционирует изображение*/
+background-size:contain; /*Определяет размеры фонового изображения, помещая его в область элемента*/
+margin:0 auto; /*Задает размер полей элемента*/
+padding:70px 50px;	/* Задает размер отсутпов элемента */
+}
+
+}
+h2{
+font: bold 3.5em Garamond, Times, serif;
+margin-top: 25px;
+}
+em{
+color: rgb(32,126,191);
+text-transform: uppercase;
+margin-left: 5px;
+font-size:70%;
+}
+div h3{
+color: rgb(112,128,144);
+font-size: 3em;
+font-weight: bold;
+text-transform: uppercase;
+margin-top: 25px;
+margin-bottom: 10px;
+}
+p{
+font-size: 1.5em;
+line-height: 150%;
+margin-left: 150px;
+margin-right: 50px;
+margin-bottom: 10px;
+}
+p:first-letter {
+font-size:2em;
+font-weight: bold;
+color: rgb(112,128,144);
+}
+
+/* end reset browser styles */
