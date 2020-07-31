@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Чат</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#wrapper {
+			background-color: #F3BCFA;
+			height: 95vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		#text {
+			margin-top: 100px;
+			width: 500px;
+			height: 40px;
+			font-size: 18px;
+			margin-bottom: 20px;
+			border-radius: 10px;
+			text-align: center;
+			outline: none;
+		}
+		#submit, #toWhom {
+			border-radius: 10px;
+			background-color: #F7FFC4;
+			outline: none;
+		}
+		#submit {
+			font-size: 20px;
+		}
+		#submit:hover, #toWhom:hover {
+			background-color: brown;
+			color: white;
+			cursor: pointer;
+		}
+		#textarea {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			height: 500px;
+			width: 700px;
+			border-radius: 20px;
+			background-color: #DED9FF;
+			outline: none;
+			padding: 10px;
+			font-size: 20px;
+
+		}
+		#nameClient {
+			position: absolute;
+			right: 20px;
+			top: 20px;
+			display: flex;
+			flex-direction: column;
+
+		}
+		#listOfClients {
+			width: 180px;
+			height: auto;
+			background-color: #F0F0F0;
+			margin-bottom: 10px;
+		}
+		#enterClient {
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		.users:hover, .selected {
+			background-color: red;
+			color: white;
+			cursor: pointer;
+		}
+		#addUser {
+			cursor: pointer;
+			margin-bottom: 20px;
+		}
+
+		#clearDialog, #clearDialogAll {
+			background-color: blue;
+			color: white;
+			cursor: pointer;
+			font-size: 25px;
+			border-radius: 30px;
+			outline: none;
+		}
+		#clearDialogAll {
+			margin-top: 20px;
+		}
+
+		#clearDialog:hover, #clearDialogAll:hover {
+			background-color: orange;
+			color: #0C5F0C;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+
+		<div id="nameClient">
+			Участники чата:
+			<input type="text" name="name" id="enterClient" autocomplete="off" placeholder="введите ваше имя">
+			<button id="addUser">Добавить</button>
+			<div id="listOfClients"></div>
+			<input type="submit" name="" id="toWhom" value="отправить выбранному">
+		</div>
+
+		<input type="text" name="message" id="text" autocomplete="off" placeholder="Поле для ввода сообщений">
+		<input type="submit" id="submit" value="Отправить всем">
+		<textarea id="textarea"></textarea>
+
+		<button id="clearDialog">Очистить диалог у меня</button>
+		<button id="clearDialogAll">Очистить диалог у всех</button>
+	</div>
+</body>
+
+	<script type="text/javascript">
+
+		let socket = new WebSocket("ws://localhost:8888"); // создаем объект для открытия соединения
+
+		let text = document.getElementById('text');
+		let submit = document.getElementById('submit');
+		let textarea = document.getElementById('textarea');
+		let toWhom = document.getElementById('toWhom');
+		let nameClient = document.getElementById('nameClient');
+		let listOfClients = document.getElementById('listOfClients');
+		let enterClient = document.getElementById('enterClient');
+		let addUser = document.getElementById('addUser');
+		let clearDialog = document.getElementById('clearDialog');
+		let clearDialogAll = document.getElementById('clearDialogAll');
+		let list = document.querySelectorAll('.list');
+		let arrOnly = [];
+		
+		
+		clearDialog.addEventListener('click', function() {
+			textarea.value = '';
+		});
+
+
+		socket.onopen = function(event) { // событие 'соединение установлено'
+
+			submit.addEventListener('click', function() { // по нажатию на кнопку 'submit' (Отправить всем)
+				let message = {users: 'all', mess: text.value};
+
+				messageInJSON = JSON.stringify(message);
+
+				socket.send(messageInJSON); // Отправляем данные на сервер
+
+				text.value = '';
+			});
+
+			clearDialogAll.addEventListener('click', function() {
+				let message = {users: 'clear', mess: ''};
+				messageInJSON = JSON.stringify(message);
+				socket.send(messageInJSON); // Отправляем данные на сервер
+			});
+
+
+			addUser.addEventListener('click', function() { // по клику на кнопку ввода участника чата
+
+			// создаем абзац с именем пользователя и вставляем его в listOfClients не отправляя на сервер
+				let p = document.createElement('p');
+				p.innerHTML = enterClient.value;
+				p.classList.add('users');
+				listOfClients.appendChild(p);
+
+
+				
+				let arrClients = [];
+				let arrP = document.querySelectorAll('.users'); // массив пользователей из listOfClients
+				for(let ar of arrP) {  
+					arrClients.push(ar.innerHTML);
+				}
+
+				this.disabled = true; // после ввода имени участника блокируем поле, чтобы в этом окне нельзя было изменить имя
+				enterClient.disabled = true;
+
+				let options = {users: 'select', mess: arrClients}; // создаем объект для отправки
+
+				let optionsJSON = JSON.stringify(options); // сериализуем объект отправки в JSON
+
+				socket.send(optionsJSON); // отправляем объект отправки в формате JSON на сервер
+
+			});
+
+
+			listOfClients.addEventListener('click', function(event) { // собираем массив для отправки конкретно выбранным клиентам
+					event.target.classList.toggle('selected');
+					arrOnly.push(event.target.innerHTML);
+				
+			});
+
+			toWhom.addEventListener('click', function() { // отправляем на сервер выбранных пользователей
+
+			
+				let options = {users: 'selected', mess: text.value, arr: arrOnly};
+				let optionsJSON = JSON.stringify(options); // сериализуем объект отправки в JSON
+				socket.send(optionsJSON); // отправляем объект отправки в формате JSON на сервер
+
+			});
+
+		};
+
+
+		socket.onmessage = function(event) {
+			
+			let messageFromJSON = JSON.parse(event.data); // получаем сообщение с сервера
+			
+			if(messageFromJSON.users == 'all') { // проверяем, кому послано. Если сообщение для всех, берем в обработку
+				if(textarea.value) { // если в поле ввода сообщений есть старые сообщения, добавляем к ним пришедшее с сервера
+					textarea.value = messageFromJSON.mess + "\n" + textarea.value; 
+				} else {
+					textarea.value = messageFromJSON.mess; // если поле сообщений пустое, просто вставляем в него пришедшее сообщение
+				}
+			}
+
+			if(messageFromJSON.users == 'select') { // проверяем, если сообщение пришло с пометкой "select", то это список участников
+			messageFromJSON.mess.sort();
+				listOfClients.innerHTML = '';
+
+				for(let par of messageFromJSON.mess) {
+					let p = document.createElement('p');
+					p.classList.add('users');
+					p.innerHTML = par;
+					
+					listOfClients.appendChild(p);
+				}
+				
+			}
+
+			if(messageFromJSON.users == 'selected' && inArray(messageFromJSON.arr, enterClient.value)) {
+				textarea.value = messageFromJSON.mess + '\n' + textarea.value;
+			}
+				
+			if(messageFromJSON.users == 'clear') {
+				textarea.value = '';
+			}
+
+		};
+
+
+		socket.onclose = function(event) {
+			if(event.wasClean) {
+				alert(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+			} else {
+				alert('[close] Соединение прервано');
+			}
+		};
+
+
+		socket.onerror = function(error) {
+			alert(`[error] ${error.message}`);
+		};
+
+
+		function inArray (arr, elem) {
+			for(let i = 0; i < arr.length; i++) {
+				if(arr[i] === elem) {
+					return true;
+				}
+			}
+				return false;
+		}
+
+
+
+	</script>
+
+</html>
